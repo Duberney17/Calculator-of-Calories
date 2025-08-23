@@ -16,7 +16,7 @@ export default function ListaActividades({actividades, dispatch} : ActividadesLi
 
   return ( 
     <div>
-      <h2 className="text-4xl font-bold text-slate-600 text-center">Comida y Actividades</h2>
+      <h2 className="text-4xl font-bold text-slate-600 text-center">Comida y ACtividades</h2>
 
       {actividades.map(actividad =>(
         <div key={actividad.id} className="px-5 py-10 bg-gray-100 mt-5 flex justify-between">
