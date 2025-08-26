@@ -1,11 +1,12 @@
-import { useMemo, useState, type Dispatch, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type Dispatch, type FormEvent } from "react";
 import {v4 as uuidv4} from 'uuid';
 import { categorias } from "../data/categorias";
 import type { Actividad } from "../types";
-import type { ActividadAcciones } from "../reducers/actividad-reducer";
+import type { ActividadAcciones, ActividadesState } from "../reducers/actividad-reducer";
 
 type FormularioProps = {
   dispatch: Dispatch<ActividadAcciones>
+  state: ActividadesState
 }
 
 const initialState  : Actividad = {
@@ -15,10 +16,21 @@ const initialState  : Actividad = {
   caloria: ''
 }
 
-export default function Formulario({dispatch} : FormularioProps) {
+export default function Formulario({dispatch, state} : FormularioProps) {
 
 
-  const [actividad, setActividad] = useState(initialState);
+  const [actividad, setActividad] = useState(initialState); 
+
+  useEffect(()=>{
+    const objActividad = state.actividades.find(activi => activi.id === state.idActivo);
+    if(objActividad){
+      setActividad(objActividad);
+    }
+  },[state.idActivo, state.actividades])
+
+  useEffect(()=>{
+    localStorage.setItem('Actividades', JSON.stringify(state.actividades))
+  },[state.actividades])
 
   const validacion = useMemo(() => actividad.actividad === '' || actividad.caloria === '',[actividad])
  
